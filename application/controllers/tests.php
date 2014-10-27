@@ -7,6 +7,12 @@ class Tests extends CI_Controller {
 		echo "this is a test";
 	}
 
+	public function client_test()
+	{
+		$this->load->library("api_client");
+		$this->api_client->do_something();
+	}
+
 }
 
 /* End of file tests.php */
