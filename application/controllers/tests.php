@@ -2,6 +2,12 @@
 
 class Tests extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->library("api_client");
+	}
+
 	public function index()
 	{
 		echo "this is a test";
@@ -9,7 +15,6 @@ class Tests extends CI_Controller {
 
 	public function client_test()
 	{
-		$this->load->library("api_client");
 		$this->api_client->do_something();
 	}
 
