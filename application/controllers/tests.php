@@ -13,6 +13,15 @@ class Tests extends CI_Controller {
 		echo "this is a test";
 	}
 
+	public function gplus_session_client_enviroment()
+	{
+		$data = array(
+			"title" => "Gplus: flujo del entorno del cliente",
+			"content" => "gplus/login_client_enviroment"
+		);
+		$this->load->view("template/loader", $data);
+	}
+
 	public function client_test()
 	{
 		$this->api_client->do_something();
