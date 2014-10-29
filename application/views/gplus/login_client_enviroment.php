@@ -7,7 +7,7 @@
 	    data-clientid="<?php echo $client_id; ?>"
 	    data-cookiepolicy="single_host_origin"
 	    data-requestvisibleactions="http://schemas.google.com/AddActivity"
-	    data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email">
+	    data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile">
 	  </span>
 	</span>
 </div>
@@ -19,7 +19,7 @@ var UrlSaveToken = "<?php echo base_url(); ?>tests/save_token";
 var UrlGetToken = "<?php echo base_url(); ?>tests/get_token";
 function signinCallback(authResult) {
   if (authResult['access_token']) {
-  	// console.log( authResult );
+  	console.log( authResult );
   	$.post(UrlSaveToken, { access_token: authResult['access_token'] }, {}, "JSON")
   	.done(function( response ){
   		// console.log("Logged In");
