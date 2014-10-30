@@ -19,8 +19,8 @@ var UrlSaveToken = "<?php echo base_url(); ?>tests/save_token";
 var UrlGetToken = "<?php echo base_url(); ?>tests/get_token";
 function signinCallback(authResult) {
   if (authResult['access_token']) {
-  	console.log( authResult );
-  	$.post(UrlSaveToken, { access_token: authResult['access_token'] }, {}, "JSON")
+  	// console.log( authResult['code'] );
+  	$.post(UrlSaveToken, { code: authResult['code'] }, {}, "JSON")
   	.done(function( response ){
   		// console.log("Logged In");
   	}).fail(function(){ alert("Something went wrong")});

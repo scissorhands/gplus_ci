@@ -25,7 +25,14 @@ class Tests extends CI_Controller {
 
 	public function save_token()
 	{
-		$data["access_token"] = $this->input->post("access_token");
+		$code = $this->input->post("code");
+		// $data["code"] = $code;
+		// exit( json_encode( $code ) );
+		$token = $this->api_client->autenticate( $code );
+		$people = $this->api_client->get_people( $token->access_token );
+		// exit( json_encode( $people ) );
+		$data["access_token"] = $token->access_token;
+
 		$this->session->set_userdata($data);
 		echo json_encode($data);
 	}

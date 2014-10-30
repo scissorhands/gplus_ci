@@ -3,14 +3,34 @@
 require_once GOOGLE_API_PATH . 'Google/Client.php';
 require_once GOOGLE_API_PATH . 'Google/Service/Analytics.php';
 require_once GOOGLE_API_PATH . 'Google/Service/Books.php';
+require_once GOOGLE_API_PATH . 'Google/Service/Plus.php';
 
 class API_Client
 {
   protected 	$ci;
+  private 		$client;
+  private 		$plus;
 
 	public function __construct()
 	{
         $this->ci =& get_instance();
+        /*
+        $client = new Google_Client();
+		$client->setApplicationName(APPLICATION_NAME);
+		$client->setClientId(CLIENT_ID);
+		$client->setClientSecret(CLIENT_SECRET);
+		$client->setRedirectUri('postmessage');
+        */
+        $this->client = new Google_Client();
+		$this->client->setApplicationName( APP_NAME );
+		$this->client->setClientId( OAUTH_CLIENT_ID );
+		$this->client->setClientSecret( OAUTH_SECRET );
+		$this->client->setRedirectUri('postmessage');
+
+		$this->plus = new Google_Service_Plus( $this->client );
+
+  		// $client = new Google_Client();
+		// $client->setApplicationName( APP_NAME );
 	}
 
 	public function do_something()
@@ -31,6 +51,30 @@ class API_Client
 		$analytics = new Google_Service_Analytics($client);
 		$accounts = $analytics->management_accounts->listManagementAccounts();
 		exit( json_encode( $accounts ) );
+	}
+
+	public function autenticate($code)
+	{
+        // exit(json_encode( $code ) );
+        // Exchange the OAuth 2.0 authorization code for user credentials.
+        $this->client->authenticate($code);
+        $token = json_decode($this->client->getAccessToken());
+
+        // You can read the Google user ID in the ID token.
+        // "sub" represents the ID token subscriber which in our case
+        // is the user ID. This sample does not use the user ID.
+        $attributes = $this->client->verifyIdToken($token->id_token, OAUTH_CLIENT_ID)
+            ->getAttributes();
+        $gplus_id = $attributes["payload"]["sub"];
+        return $token;
+	}
+
+	public function get_people($token)
+	{
+		exit( print_r( $token) );
+		$this->client->setAccessToken($token);
+    	$people = $this->plus->people->listPeople('me', 'visible', array());
+    	return $people;
 	}
 	
 }
