@@ -14,7 +14,7 @@ class API_Client
 	public function __construct()
 	{
         $this->ci =& get_instance();
-        
+
         $this->client = new Google_Client();
 		$this->client->setApplicationName( APP_NAME );
 		$this->client->setClientId( OAUTH_CLIENT_ID );
@@ -46,7 +46,6 @@ class API_Client
 
 	public function autenticate($code)
 	{
-        // exit(json_encode( $code ) );
         // Exchange the OAuth 2.0 authorization code for user credentials.
         $this->client->authenticate($code);
         $token = json_decode($this->client->getAccessToken());
@@ -62,10 +61,14 @@ class API_Client
 
 	public function get_people($token)
 	{
-		// exit( print_r( $token) );
 		$this->client->setAccessToken($token);
     	$people = $this->plus->people->listPeople('me', 'visible', array());
     	return $people->toSimpleObject();
+	}
+
+	public function revoke_token($token)
+	{
+		$this->client->revokeToken($token);
 	}
 	
 }

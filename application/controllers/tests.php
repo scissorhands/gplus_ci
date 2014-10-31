@@ -16,9 +16,9 @@ class Tests extends CI_Controller {
 	public function gplus_session_client_enviroment()
 	{
 		$data = array(
-			"title" => "Gplus: flujo del entorno del cliente",
-			"content" => "gplus/login_client_enviroment",
-			"client_id" => GP_CLIENT_ID,
+			"title" 	=>	"Gplus: flujo del entorno del cliente",
+			"content" 	=>	"gplus/login_client_enviroment",
+			"client_id"	=>	GP_CLIENT_ID
 		);
 		$this->load->view("template/loader", $data);
 	}

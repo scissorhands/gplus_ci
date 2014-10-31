@@ -35,6 +35,14 @@ class Gplus extends CI_Controller {
 	{
 		$this->api_client->do_something();
 	}
+
+	public function disconnect()
+	{
+		$token = json_decode($this->session->userdata("token"))->access_token;
+	    $this->api_client->revoke_token($token);
+	    $this->session->unset_userdata("token");
+	    echo json_encode( array("status" => "successfully logged out") );
+	}
 }
 
 /* End of file gplus.php */
