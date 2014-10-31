@@ -14,13 +14,7 @@ class API_Client
 	public function __construct()
 	{
         $this->ci =& get_instance();
-        /*
-        $client = new Google_Client();
-		$client->setApplicationName(APPLICATION_NAME);
-		$client->setClientId(CLIENT_ID);
-		$client->setClientSecret(CLIENT_SECRET);
-		$client->setRedirectUri('postmessage');
-        */
+        
         $this->client = new Google_Client();
 		$this->client->setApplicationName( APP_NAME );
 		$this->client->setClientId( OAUTH_CLIENT_ID );
@@ -28,9 +22,6 @@ class API_Client
 		$this->client->setRedirectUri('postmessage');
 
 		$this->plus = new Google_Service_Plus( $this->client );
-
-  		// $client = new Google_Client();
-		// $client->setApplicationName( APP_NAME );
 	}
 
 	public function do_something()

@@ -16,7 +16,7 @@
 </div>
 <div class="row">
 	<div id="gplus-people"></div>
-</div>
+</div><a href="" title=""></a>
 
 <script type="text/javascript" charset="utf-8" async defer>
 var BaseUrl = "<?php echo base_url(); ?>";
@@ -29,9 +29,17 @@ function signinCallback(authResult) { + ""
     	$("#gplus-people").html("Loading..");
   		console.log("Logged In");
   		$.get(BaseUrl + "gplus/get_people", {}, {}, "JSON")
-  		.done( function( response ){
+  		.done( function( people ){
   			$("#gplus-people").html("Done.");
-  			console.log( response );
+  			$('#gplus-people').empty();
+
+			$('#gplus-people').append('Number of people visible to this app: ' +
+			  people.totalItems + '<br/>');
+			for (var personIndex in people.items) {
+				person = people.items[personIndex];
+				$('#gplus-people').append('<a title="' 
+					+person.displayName+ '" href="'+person.url+'"><img src="' + person.image.url + '"></a> - ');
+			}
   		} )
   		.fail( function(e){ console.log( "Error " + e); } );
 
