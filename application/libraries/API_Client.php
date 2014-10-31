@@ -71,10 +71,10 @@ class API_Client
 
 	public function get_people($token)
 	{
-		exit( print_r( $token) );
+		// exit( print_r( $token) );
 		$this->client->setAccessToken($token);
     	$people = $this->plus->people->listPeople('me', 'visible', array());
-    	return $people;
+    	return $people->toSimpleObject();
 	}
 	
 }
