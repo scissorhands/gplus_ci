@@ -21,9 +21,10 @@
 <script type="text/javascript" charset="utf-8" async defer>
 
 	var BaseUrl = "<?php echo base_url(); ?>";
+	var State = "<?php echo $state; ?>";
 	function signinCallback(authResult) { + ""
 	  if (authResult['access_token']) {
-	  	$.post(BaseUrl + "gplus/connect", { code: authResult['code'] }, {}, "JSON")
+	  	$.post(BaseUrl + "gplus/connect/" + State, { code: authResult['code'] }, {}, "JSON")
 	  	.done(function( response ){
 	  		
 	    	document.getElementById('signinButton').setAttribute('style', 'display: none');

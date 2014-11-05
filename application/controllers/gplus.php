@@ -8,8 +8,9 @@ class Gplus extends CI_Controller {
 		$this->load->library("api_client");
 	}
 
-	public function connect()
+	public function connect( $state = null )
 	{
+		if( !$state OR $state != $this->session->userdata("state") ){ exit("wrong parameter"); }
 		$code = $this->input->post("code");
 		$token = $this->api_client->autenticate( $code );
 		$set_data["token"] = json_encode($token);
