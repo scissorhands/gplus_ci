@@ -24,7 +24,7 @@
 	var State = "<?php echo $state; ?>";
 	function signinCallback(authResult) { + ""
 	  if (authResult['access_token']) {
-	  	$.post(BaseUrl + "gplus/connect/" + State, { code: authResult['code'] }, {}, "JSON")
+	  	$.post(BaseUrl + "gplus/connect", { code: authResult['code'], state: State }, {}, "JSON")
 	  	.done(function( response ){
 	  		
 	    	document.getElementById('signinButton').setAttribute('style', 'display: none');

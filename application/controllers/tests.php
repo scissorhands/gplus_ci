@@ -26,6 +26,11 @@ class Tests extends CI_Controller {
 		$this->load->view("template/loader", $data);
 	}
 
+	public function show_session()
+	{
+		echo json_encode( $this->session->all_userdata() );
+	}
+
 }
 
 /* End of file tests.php */

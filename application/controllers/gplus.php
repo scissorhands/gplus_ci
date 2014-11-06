@@ -8,8 +8,9 @@ class Gplus extends CI_Controller {
 		$this->load->library("api_client");
 	}
 
-	public function connect( $state = null )
+	public function connect()
 	{
+		$state = $this->input->post("state");
 		if( !$state OR $state != $this->session->userdata("state") ){ exit("wrong parameter"); }
 		$code = $this->input->post("code");
 		$token = $this->api_client->autenticate( $code );
@@ -29,7 +30,7 @@ class Gplus extends CI_Controller {
 	public function get_token()
 	{
 		$data["token"] = $this->session->userdata("token");
-		echo json_encode( $data );
+		echo $data["token"];
 	}
 
 	public function client_test()
