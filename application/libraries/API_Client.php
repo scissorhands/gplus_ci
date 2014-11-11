@@ -48,15 +48,15 @@ class API_Client
 	{
         // Exchange the OAuth 2.0 authorization code for user credentials.
         $this->client->authenticate($code);
-        $token = json_decode($this->client->getAccessToken());
+        $data["token"] = json_decode($this->client->getAccessToken());
 
         // You can read the Google user ID in the ID token.
         // "sub" represents the ID token subscriber which in our case
         // is the user ID. This sample does not use the user ID.
-        $attributes = $this->client->verifyIdToken($token->id_token, OAUTH_CLIENT_ID)
+        $data["attributes"] = $this->client->verifyIdToken($data["token"]->id_token, OAUTH_CLIENT_ID)
             ->getAttributes();
-        $gplus_id = $attributes["payload"]["sub"];
-        return $token;
+        $data["gplus_id"] = $data["attributes"]["payload"]["sub"];
+        return $data;
 	}
 
 	public function get_people($token)

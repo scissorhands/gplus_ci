@@ -13,9 +13,10 @@ class Gplus extends CI_Controller {
 		$state = $this->input->post("state");
 		if( !$state OR $state != $this->session->userdata("state") ){ exit("wrong parameter"); }
 		$code = $this->input->post("code");
-		$token = $this->api_client->autenticate( $code );
-		$set_data["token"] = json_encode($token);
+		$token_bearer = $this->api_client->autenticate( $code );
+		$set_data["token"] = json_encode($token_bearer["token"]);
 		$this->session->set_userdata($set_data);
+		// $data = array( "status" => "success", "bearer" => $token_bearer );
 		$data = array( "status" => "success" );
 		echo json_encode( $data );
 	}
@@ -40,9 +41,11 @@ class Gplus extends CI_Controller {
 
 	public function disconnect()
 	{
-		$token = json_decode($this->session->userdata("token"))->access_token;
-	    $this->api_client->revoke_token($token);
-	    $this->session->unset_userdata("token");
+		if( $this->session->userdata("token") ){
+			$token = json_decode($this->session->userdata("token"))->access_token;
+		    $this->api_client->revoke_token($token);
+		    $this->session->unset_userdata("token");
+		}
 	    echo json_encode( array("status" => "Successfully logged out") );
 	}
 }
