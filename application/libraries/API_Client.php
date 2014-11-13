@@ -53,9 +53,9 @@ class API_Client
         // You can read the Google user ID in the ID token.
         // "sub" represents the ID token subscriber which in our case
         // is the user ID. This sample does not use the user ID.
-        $data["attributes"] = $this->client->verifyIdToken($data["token"]->id_token, OAUTH_CLIENT_ID)
+        $attributes = $this->client->verifyIdToken($data["token"]->id_token, OAUTH_CLIENT_ID)
             ->getAttributes();
-        $data["gplus_id"] = $data["attributes"]["payload"]["sub"];
+        $data["email"] = $attributes["payload"]["email"];
         return $data;
 	}
 

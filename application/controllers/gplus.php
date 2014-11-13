@@ -6,6 +6,7 @@ class Gplus extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library("api_client");
+		$this->load->model("gclients_model", "gclients");
 	}
 
 	public function connect()
@@ -14,9 +15,15 @@ class Gplus extends CI_Controller {
 		if( !$state OR $state != $this->session->userdata("state") ){ exit("wrong parameter"); }
 		$code = $this->input->post("code");
 		$token_bearer = $this->api_client->autenticate( $code );
-		$set_data["token"] = json_encode($token_bearer["token"]);
-		$this->session->set_userdata($set_data);
-		// $data = array( "status" => "success", "bearer" => $token_bearer );
+		$google_user = array(
+			"token" => json_encode($token_bearer["token"]),
+			"email" => $token_bearer["email"]
+		);
+		$guser = $this->gclients->get_user( $google_user["email"] );
+		if( !$guser ){
+			$this->gclients->insert_client($google_user);
+		}
+		$this->session->set_userdata($google_user);
 		$data = array( "status" => "success" );
 		echo json_encode( $data );
 	}
