@@ -5,8 +5,9 @@
 	    class="g-signin"
 	    data-callback="signinCallback"
 	    data-clientid="<?php echo $client_id; ?>"
+	    data-redirecturi="postmessage"
+	    data-accesstype="offline"
 	    data-cookiepolicy="single_host_origin"
-	    data-requestvisibleactions="http://schemas.google.com/AddActivity"
 	    data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile">
 	  </span>
 	</span>
@@ -48,7 +49,7 @@
 	  	}).fail(function(){ alert("Something went wrong")});
 	  } else if (authResult['error']) {
 	    if( authResult['error'] != "immediate_failed" ){
-	    	console.log('There was an error: ' + authResult['error']);
+	    	console.log( authResult['error'] );
 	    }
 	  }
 	}
@@ -58,7 +59,7 @@
 		.done(function(response){
 			$("#gplus-people").empty();
 			document.getElementById('signinButton').setAttribute('style', 'display: inline');
-			console.log( response );
+			console.log( response.status );
 		});
 	});
 

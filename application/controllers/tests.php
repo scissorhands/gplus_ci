@@ -6,6 +6,7 @@ class Tests extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library("api_client");
+		$this->load->model("gclients_model", "gclients");
 	}
 
 	public function index()
@@ -24,6 +25,14 @@ class Tests extends CI_Controller {
 			"client_id"	=>	GP_CLIENT_ID
 		);
 		$this->load->view("template/loader", $data);
+	}
+
+	public function user_contacts()
+	{
+		$clients = $this->gclients->get_users();
+		$user = $clients[0];
+		$people = $this->api_client->get_people( $user->token );
+		echo json_encode( $people );
 	}
 
 	public function show_session()

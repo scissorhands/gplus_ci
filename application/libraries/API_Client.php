@@ -50,6 +50,15 @@ class API_Client
         $this->client->authenticate($code);
         $data["token"] = json_decode($this->client->getAccessToken());
 
+        // $token = json_decode($this->client->getAccessToken());
+		// Verifica el token
+		// $reqUrl = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' .
+		//   $token->access_token;
+		// $req = new Google_HttpRequest($reqUrl);
+
+		// $tokenInfo = json_decode( $client::getIo()->authenticatedRequest($req)->getResponseBody() );
+		// exit( json_encode( $tokenInfo ) );
+
         // You can read the Google user ID in the ID token.
         // "sub" represents the ID token subscriber which in our case
         // is the user ID. This sample does not use the user ID.

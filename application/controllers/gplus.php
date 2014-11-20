@@ -17,10 +17,11 @@ class Gplus extends CI_Controller {
 		$token_bearer = $this->api_client->autenticate( $code );
 		$google_user = array(
 			"token" => json_encode($token_bearer["token"]),
-			"email" => $token_bearer["email"]
+			"email" => $token_bearer["email"],
 		);
 		$guser = $this->gclients->get_user( $google_user["email"] );
-		if( !$guser ){
+		if( !$guser ){;
+			$google_user["refresh_token"] = $token_bearer["token"]->refresh_token;
 			$this->gclients->insert_client($google_user);
 		}
 		$this->session->set_userdata($google_user);
@@ -33,6 +34,16 @@ class Gplus extends CI_Controller {
 		$token = $this->session->userdata("token");
 		$people = $this->api_client->get_people( $token );
 		echo json_encode( $people );
+	}
+
+	public function show_users()
+	{
+		$users = $this->gclients->get_users();
+		$people = array();
+		foreach ($users as $user) {
+			$people[$user->email] = $this->api_client->get_people( $user->token );
+		}
+		exit( json_encode( $people ) );
 	}
 
 	public function get_token()
@@ -50,8 +61,10 @@ class Gplus extends CI_Controller {
 	{
 		if( $this->session->userdata("token") ){
 			$token = json_decode($this->session->userdata("token"))->access_token;
+			$this->gclients->delete_token($this->session->userdata("email"));
 		    $this->api_client->revoke_token($token);
 		    $this->session->unset_userdata("token");
+		    $this->session->unset_userdata("email");
 		}
 	    echo json_encode( array("status" => "Successfully logged out") );
 	}
