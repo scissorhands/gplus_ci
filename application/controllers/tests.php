@@ -19,7 +19,7 @@ class Tests extends CI_Controller {
 		$state = md5(rand());
 		$this->session->set_userdata( array( "state" => $state ));
 		$data = array(
-			"title" 	=>	"Gplus: flujo del entorno del cliente",
+			"title" 	=>	"Gplus: flujo del entorno del servidor",
 			"content" 	=>	"gplus/login_client_enviroment",
 			"state" 	=>	$state,
 			"client_id"	=>	GP_CLIENT_ID
@@ -27,12 +27,22 @@ class Tests extends CI_Controller {
 		$this->load->view("template/loader", $data);
 	}
 
-	public function user_contacts()
+	public function user_contacts($index = 0)
 	{
 		$clients = $this->gclients->get_users();
-		$user = $clients[0];
+		$user = $clients[$index];
 		$people = $this->api_client->get_people( $user->token );
 		echo json_encode( $people );
+	}
+
+	public function remaining_time($index = 0)
+	{
+		$clients = $this->gclients->get_users();
+		$user = $clients[$index];
+		$time_created = json_decode($user->token)->created;
+		$t=time();
+		$timediff=$t-$time_created;
+		exit( "$timediff" );
 	}
 
 	public function show_session()
