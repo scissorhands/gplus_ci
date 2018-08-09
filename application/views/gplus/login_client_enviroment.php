@@ -1,66 +1,33 @@
-<div class="row">
-	<p>This is an example of using the Login session button from Gplus</p>
-	<span id="signinButton">
-	  <span
-	    class="g-signin"
-	    data-callback="signinCallback"
-	    data-clientid="<?php echo $client_id; ?>"
-	    data-redirecturi="postmessage"
-	    data-accesstype="offline"
-	    data-cookiepolicy="single_host_origin"
-	    data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile">
-	  </span>
-	</span>
+<div class="jumbotron text-center">
+	<div class="container">
+		<h3><?php echo isset($title)? $title : "Gplus CI" ?> </h3>
+		<p>This is an example of using the Login session button from Gplus</p>	
+		<div class="content ">
+			<span id="signinButton">
+			  <span
+			    class="g-signin"
+			    data-callback="signinCallback"
+			    data-clientid="<?php echo $client_id; ?>"
+			    data-redirecturi="postmessage"
+			    data-accesstype="offline"
+			    data-cookiepolicy="single_host_origin"
+			    data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile">
+			  </span>
+			</span>
+		</div>
+		<button type="button" id="revokeButton" class="btn btn-small btn-danger d-none">Revoke Token</button>
+		<div class="mt-2" id="profile-img"></div>
+	</div>
 </div>
-<div class="row">
-	<button type="button" id="revokeButton" class="btn btn-danger">Revoke Token</button>
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<div class="" id="gplus-people"></div>
+		</div>
+	</div>
 </div>
-<div class="row">
-	<div id="gplus-people"></div>
-</div><a href="" title=""></a>
 
 <script type="text/javascript" charset="utf-8" async defer>
-
-	var BaseUrl = "<?php echo base_url(); ?>";
 	var State = "<?php echo $state; ?>";
-	function signinCallback(authResult) { + ""
-	  if (authResult['access_token']) {
-	  	$.post(BaseUrl + "gplus/connect", { code: authResult['code'], state: State }, {}, "JSON")
-	  	.done(function( response ){
-	  		
-	    	document.getElementById('signinButton').setAttribute('style', 'display: none');
-	    	$("#gplus-people").html("Loading..");
-	  		console.log("Logged In");
-	  		$.get(BaseUrl + "gplus/get_people", {}, {}, "JSON")
-	  		.done( function( people ){
-	  			$("#gplus-people").html("Done.");
-	  			$('#gplus-people').empty();
-
-				$('#gplus-people').append('Number of people visible to this app: ' +
-				  people.totalItems + '<br/>');
-				for (var personIndex in people.items) {
-					person = people.items[personIndex];
-					$('#gplus-people').append('<a title="' 
-						+person.displayName+ '" href="'+person.url+'"><img src="' + person.image.url + '"></a> - ');
-				}
-	  		} )
-	  		.fail( function(e){ console.log( "Error " + e); } );
-
-	  	}).fail(function(){ alert("Something went wrong")});
-	  } else if (authResult['error']) {
-	    if( authResult['error'] != "immediate_failed" ){
-	    	console.log( authResult['error'] );
-	    }
-	  }
-	}
-
-	$('#revokeButton').click(function(){
-		$.post(BaseUrl + "gplus/disconnect", {}, {}, "JSON")
-		.done(function(response){
-			$("#gplus-people").empty();
-			document.getElementById('signinButton').setAttribute('style', 'display: inline');
-			console.log( response.status );
-		});
-	});
-
 </script>
+<script src="/assets/main.js" type="text/javascript"></script>

@@ -1,4 +1,4 @@
-	</div>
+
 </body>
 <!-- Coloca este JavaScript asíncrono justo delante de la etiqueta </body> -->
     <script type="text/javascript">
