@@ -1,4 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Gplus extends CI_Controller {
 
@@ -46,7 +47,8 @@ class Gplus extends CI_Controller {
 		}
 	    echo json_encode( ["status" => "Successfully logged out"] );
 	}
+
 }
 
-/* End of file gplus.php */
-/* Location: ./application/controllers/gplus.php */
+/* End of file Gplus.php */
+/* Location: ./application/controllers/Gplus.php */
